@@ -1,0 +1,16 @@
+{
+  "list": {
+    "command": "ls",
+    "time": 10
+  },
+  "change directory": {
+    "commands": {
+      "current": {
+        "command": "cd ."
+      },
+      "parent": {
+        "command": "cd ../"
+      }
+    }
+  }
+}
