@@ -10,7 +10,9 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:commandLists"
+    "onView:commandList",
+    "onView:workSpaceCommandExplorer",
+    "onView:globalCommandExplorer"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -18,19 +20,33 @@
       "activitybar": [
         {
           "id": "commandList",
-          "title": "CommandList",
+          "title": "Command List",
           "icon": "resources/icon.svg"
         }
       ]
-		},
-		"views": {
-			"commandList": [
-				{
-					"id": "commandLists",
-					"name": "Command List"
-				}
-			]
-    }
+    },
+    "views": {
+      "commandList": [
+        {
+          "id": "workSpaceCommandExplorer",
+          "name": "workSpace"
+        },
+        {
+          "id": "globalCommandExplorer",
+          "name": "global"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "workSpaceCommandExplorer.openFile",
+        "title": "Open File"
+      },
+      {
+        "command": "globalCommandExplorer.openFile",
+        "title": "Open File"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -40,10 +56,16 @@
     "test": "npm run compile && node ./node_modules/vscode/bin/test"
   },
   "devDependencies": {
-    "typescript": "^3.3.1",
-    "vscode": "^1.1.28",
-    "tslint": "^5.12.1",
+    "@types/mkdirp": "^0.5.2",
+    "@types/mocha": "^2.2.42",
     "@types/node": "^10.12.21",
-    "@types/mocha": "^2.2.42"
+    "@types/rimraf": "^2.0.2",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.1",
+    "vscode": "^1.1.28"
+  },
+  "dependencies": {
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.6.3"
   }
 }

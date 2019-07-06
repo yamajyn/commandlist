@@ -1,15 +1,15 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import { CommandsProvider } from './commands';
+import { CommandExplorer } from './commandExplorer';
 
 // this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	const commandsProvider = new CommandsProvider(context.globalStoragePath, context.storagePath);
-	
-	vscode.window.registerTreeDataProvider('commandLists', commandsProvider);
+	if(context.storagePath){
+		new CommandExplorer('workSpaceCommandExplorer', context.storagePath);
+	}
+	new CommandExplorer('globalCommandExplorer', context.globalStoragePath);
 }
 
 // this method is called when your extension is deactivated
