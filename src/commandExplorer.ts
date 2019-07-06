@@ -297,13 +297,26 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 
 	getTreeItem(element: Entry): vscode.TreeItem {
 		const isDirectory = element.type === vscode.FileType.Directory;
-		const name = this.getFileName(element.uri.fsPath);
-		
-		const label = isDirectory ? name : name.slice(0,name.lastIndexOf('.json'));
+		let label = this.getFileName(element.uri.fsPath);
+		let time = '';
+		if(!isDirectory){
+			try{
+				const file = JSON.parse(fs.readFileSync(element.uri.fsPath, 'utf8'));
+				label = file.command;
+				time = `${file.time}s`;
+				if(file.command === undefined){
+					throw new Error("unknown data");
+				}
+			} catch {
+				label = '';
+				time = 'unknown command';
+			}
+		}
 		const treeItem = new vscode.TreeItem(label, isDirectory ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None);
 		if (element.type === vscode.FileType.File) {
 			treeItem.command = { command: 'commandExplorer.openFile', title: "Open File", arguments: [element.uri], };
 			treeItem.contextValue = 'file';
+			treeItem.description = time;
 		}
 		return treeItem;
 	}
