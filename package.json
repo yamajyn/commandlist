@@ -45,8 +45,38 @@
       {
         "command": "globalCommandExplorer.openFile",
         "title": "Open File"
+      },
+      {
+        "command": "workSpaceCommandExplorer.add",
+        "title": "Add",
+        "icon": {
+          "light": "resources/light/add.svg",
+          "dark": "resources/dark/add.svg"
+        }
+      },
+      {
+        "command": "globalCommandExplorer.add",
+        "title": "Add",
+        "icon": {
+          "light": "resources/light/add.svg",
+          "dark": "resources/dark/add.svg"
+        }
       }
-    ]
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "workSpaceCommandExplorer.add",
+          "when": "view == workSpaceCommandExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "globalCommandExplorer.add",
+          "when": "view == globalCommandExplorer",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -60,12 +90,14 @@
     "@types/mocha": "^2.2.42",
     "@types/node": "^10.12.21",
     "@types/rimraf": "^2.0.2",
+    "@types/uuid": "^3.4.5",
     "tslint": "^5.12.1",
     "typescript": "^3.3.1",
     "vscode": "^1.1.28"
   },
   "dependencies": {
     "mkdirp": "^0.5.1",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "uuid": "^3.3.2"
   }
 }

@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
 import * as rimraf from 'rimraf';
+import * as uuid from 'uuid/v4';
 
 //#region Utilities
 
@@ -149,6 +150,12 @@ interface Entry {
 	type: vscode.FileType;
 }
 
+interface Command {
+	label?:string;
+	command?:string;
+	time?:number;
+}
+
 //#endregion
 
 export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscode.FileSystemProvider {
@@ -157,13 +164,37 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 
 	private rootUri: vscode.Uri;
 
-	constructor(rootPath:string) {
+	private viewId: string;
+
+	constructor(viewId:string, rootPath:string) {
 		this._onDidChangeFile = new vscode.EventEmitter<vscode.FileChangeEvent[]>();
 		this.rootUri = vscode.Uri.file(rootPath);
+		this.viewId = viewId;
+		this.watch(this.rootUri,{recursive:true, excludes: ['.json']});
 	}
 
 	get onDidChangeFile(): vscode.Event<vscode.FileChangeEvent[]> {
 		return this._onDidChangeFile.event;
+	}
+
+	add(selected?: Entry){
+		vscode.window.showInputBox({ placeHolder: 'Enter the new command' })
+			.then(value => {
+				if (value !== null && value !== undefined) {
+					if(selected){
+						const data: Command = {
+							command: value
+						};
+						const filePath = selected.type === vscode.FileType.Directory ? `${selected.uri.fsPath}/${uuid()}.json` : `${this.getDirectoryPath(selected.uri.fsPath)}/${uuid()}.json`;
+						this._writeFile(filePath, this.stringToUnit8Array(JSON.stringify(data)),{ create: true, overwrite: true });
+					}else{
+						const data: Command = {
+							command: value
+						};
+						this._writeFile(`${this.rootUri.fsPath}/${uuid()}.json`, this.stringToUnit8Array(JSON.stringify(data)),{ create: true, overwrite: true });
+					}
+				}
+			});
 	}
 
 	watch(uri: vscode.Uri, options: { recursive: boolean; excludes: string[]; }): vscode.Disposable {
@@ -215,24 +246,28 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 	}
 
 	writeFile(uri: vscode.Uri, content: Uint8Array, options: { create: boolean; overwrite: boolean; }): void | Thenable<void> {
-		return this._writeFile(uri, content, options);
+		return this._writeFile(uri.fsPath, content, options);
 	}
 
-	async _writeFile(uri: vscode.Uri, content: Uint8Array, options: { create: boolean; overwrite: boolean; }): Promise<void> {
-		const exists = await _.exists(uri.fsPath);
+	async _writeFile(fsPath: string, content: Uint8Array, options: { create: boolean; overwrite: boolean; }): Promise<void> {
+		const exists = await _.exists(fsPath);
 		if (!exists) {
 			if (!options.create) {
 				throw vscode.FileSystemError.FileNotFound();
 			}
 
-			await _.mkdir(path.dirname(uri.fsPath));
+			await _.mkdir(path.dirname(fsPath));
 		} else {
 			if (!options.overwrite) {
 				throw vscode.FileSystemError.FileExists();
 			}
 		}
 
-		return _.writefile(uri.fsPath, content as Buffer);
+		return _.writefile(fsPath, content as Buffer);
+	}
+
+	stringToUnit8Array(s:string): Uint8Array{
+		return Uint8Array.from(Buffer.from(s));
 	}
 
 	delete(uri: vscode.Uri, options: { recursive: boolean; }): void | Thenable<void> {
@@ -301,12 +336,15 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		let time = '';
 		if(!isDirectory){
 			try{
-				const file = JSON.parse(fs.readFileSync(element.uri.fsPath, 'utf8'));
-				label = file.command;
-				time = `${file.time}s`;
+				const file: Command = JSON.parse(fs.readFileSync(element.uri.fsPath, 'utf8'));
 				if(file.command === undefined){
 					throw new Error("unknown data");
 				}
+				label = file.command;
+				if(file.time) {
+					time = `${file.time}s`;
+				}
+				
 			} catch {
 				label = '';
 				time = 'unknown command';
@@ -314,7 +352,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		}
 		const treeItem = new vscode.TreeItem(label, isDirectory ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None);
 		if (element.type === vscode.FileType.File) {
-			treeItem.command = { command: 'commandExplorer.openFile', title: "Open File", arguments: [element.uri], };
+			treeItem.command = { command: `${this.viewId}.openFile`, title: "Open File", arguments: [element.uri], };
 			treeItem.contextValue = 'file';
 			treeItem.description = time;
 		}
@@ -332,16 +370,24 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 	getFileName(path: string): string {
 		return path.slice(path.lastIndexOf('/') + 1);
 	}
+
+	getDirectoryPath(path: string): string{
+		return path.slice(0, path.lastIndexOf('/'));
+	}
 }
 
 export class CommandExplorer {
 
 	private commandExplorer: vscode.TreeView<Entry>;
 
+	private selectedFile?: Entry;
+
 	constructor(viewId: string, storagePath: string) {
-		const treeDataProvider = new FileSystemProvider(storagePath);
+		const treeDataProvider = new FileSystemProvider(viewId, storagePath);
 		this.commandExplorer = vscode.window.createTreeView(viewId, { treeDataProvider });
 		vscode.commands.registerCommand(`${viewId}.openFile`, (resource) => this.openResource(resource));
+		this.commandExplorer.onDidChangeSelection(event => this.selectedFile = event.selection[0]);
+		vscode.commands.registerCommand(`${viewId}.add`,() => treeDataProvider.add(this.selectedFile));
 	}
 
 	private openResource(resource: vscode.Uri): void {
