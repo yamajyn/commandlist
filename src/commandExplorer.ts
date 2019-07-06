@@ -270,7 +270,9 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 	async getChildren(element?: Entry): Promise<Entry[]> {
 		if (element) {
 			const children = await this.readDirectory(element.uri);
-			return children.map(([name, type]) => ({ uri: vscode.Uri.file(path.join(element.uri.fsPath, name)), type }));
+			return children
+							.filter(([name, type]) => this.isJson(name) || type === vscode.FileType.Directory)
+							.map(([name, type]) => ({ uri: vscode.Uri.file(path.join(element.uri.fsPath, name)), type }));
     }
 		
 		const rootPath = this.rootUri.fsPath;
@@ -285,19 +287,37 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 				}
 				return a[1] === vscode.FileType.Directory ? -1 : 1;
 			});
-			return children.map(([name, type]) => ({ uri: vscode.Uri.file(path.join(rootPath, name)), type }));
+			return children
+							.filter(([name, type]) => this.isJson(name) || type === vscode.FileType.Directory)
+							.map(([name, type]) => ({ uri: vscode.Uri.file(path.join(rootPath, name)), type }));
 		}
 
 		return [];
 	}
 
 	getTreeItem(element: Entry): vscode.TreeItem {
-		const treeItem = new vscode.TreeItem(element.uri, element.type === vscode.FileType.Directory ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None);
+		const isDirectory = element.type === vscode.FileType.Directory;
+		const name = this.getFileName(element.uri.fsPath);
+		
+		const label = isDirectory ? name : name.slice(0,name.lastIndexOf('.json'));
+		const treeItem = new vscode.TreeItem(label, isDirectory ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None);
 		if (element.type === vscode.FileType.File) {
 			treeItem.command = { command: 'commandExplorer.openFile', title: "Open File", arguments: [element.uri], };
 			treeItem.contextValue = 'file';
 		}
 		return treeItem;
+	}
+
+	isJson(path: string) : boolean {
+		const index = path.lastIndexOf('.json');
+		if(index === -1) {
+			return false;
+		}
+		return (path.length - index) === 5;
+	}
+
+	getFileName(path: string): string {
+		return path.slice(path.lastIndexOf('/') + 1);
 	}
 }
 
