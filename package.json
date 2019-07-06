@@ -61,6 +61,14 @@
           "light": "resources/light/add.svg",
           "dark": "resources/dark/add.svg"
         }
+      },
+      {
+        "command": "workSpaceCommandExplorer.edit",
+        "title": "Edit"
+      },
+      {
+        "command": "globalCommandExplorer.edit",
+        "title": "Edit"
       }
     ],
     "menus": {

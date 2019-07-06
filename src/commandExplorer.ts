@@ -196,6 +196,22 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 				}
 			});
 	}
+	edit(element?: Entry){
+		console.log(element);
+		if(element && element.type === vscode.FileType.File){
+			const file: Command = JSON.parse(fs.readFileSync(element.uri.fsPath, 'utf8'));
+			vscode.window.showInputBox({ placeHolder: 'Edit command and Save', value:file.command ? file.command : '' })
+			.then(value => {
+				if (value !== null && value !== undefined) {
+					const data: Command = {
+						command: value
+					};
+					const filePath = element.uri.fsPath;
+					this._writeFile(filePath, this.stringToUnit8Array(JSON.stringify(data)),{ create: false, overwrite: true });
+				}
+			});
+		}
+	}
 
 	watch(uri: vscode.Uri, options: { recursive: boolean; excludes: string[]; }): vscode.Disposable {
 		const watcher = fs.watch(uri.fsPath, { recursive: options.recursive }, async (event: string, filename: string | Buffer) => {
@@ -352,7 +368,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		}
 		const treeItem = new vscode.TreeItem(label, isDirectory ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None);
 		if (element.type === vscode.FileType.File) {
-			treeItem.command = { command: `${this.viewId}.openFile`, title: "Open File", arguments: [element.uri], };
+			treeItem.command = { command: `${this.viewId}.edit`, title: "Edit", arguments: [element], };
 			treeItem.contextValue = 'file';
 			treeItem.description = time;
 		}
@@ -388,6 +404,7 @@ export class CommandExplorer {
 		vscode.commands.registerCommand(`${viewId}.openFile`, (resource) => this.openResource(resource));
 		this.commandExplorer.onDidChangeSelection(event => this.selectedFile = event.selection[0]);
 		vscode.commands.registerCommand(`${viewId}.add`,() => treeDataProvider.add(this.selectedFile));
+		vscode.commands.registerCommand(`${viewId}.edit`,(element) => treeDataProvider.edit(element));
 	}
 
 	private openResource(resource: vscode.Uri): void {
