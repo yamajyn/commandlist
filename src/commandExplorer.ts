@@ -4,6 +4,8 @@ import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
 import * as rimraf from 'rimraf';
 import * as uuid from 'uuid/v4';
+import { Entry } from './type/Entry';
+import { Command } from './type/Command';
 
 //#region Utilities
 
@@ -145,17 +147,6 @@ export class FileStat implements vscode.FileStat {
 	}
 }
 
-interface Entry {
-	uri: vscode.Uri;
-	type: vscode.FileType;
-}
-
-interface Command {
-	label?:string;
-	command?:string;
-	time?:number;
-}
-
 //#endregion
 
 export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscode.FileSystemProvider {
@@ -182,16 +173,16 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 			.then(value => {
 				if (value !== null && value !== undefined) {
 					if(selected){
-						const data: Command = {
-							command: value
+						const command: Command = {
+							script: value
 						};
 						const filePath = selected.type === vscode.FileType.Directory ? `${selected.uri.fsPath}/${uuid()}.json` : `${this.getDirectoryPath(selected.uri.fsPath)}/${uuid()}.json`;
-						this._writeFile(filePath, this.stringToUnit8Array(JSON.stringify(data)),{ create: true, overwrite: true });
+						this._writeFile(filePath, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
 					}else{
-						const data: Command = {
-							command: value
+						const command: Command = {
+							script: value
 						};
-						this._writeFile(`${this.rootUri.fsPath}/${uuid()}.json`, this.stringToUnit8Array(JSON.stringify(data)),{ create: true, overwrite: true });
+						this._writeFile(`${this.rootUri.fsPath}/${uuid()}.json`, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
 					}
 				}
 			});
@@ -200,11 +191,11 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		console.log(element);
 		if(element && element.type === vscode.FileType.File){
 			const file: Command = JSON.parse(fs.readFileSync(element.uri.fsPath, 'utf8'));
-			vscode.window.showInputBox({ placeHolder: 'Edit command and Save', value:file.command ? file.command : '' })
+			vscode.window.showInputBox({ placeHolder: 'Edit command and Save', value:file.script ? file.script : '' })
 			.then(value => {
 				if (value !== null && value !== undefined) {
 					const data: Command = {
-						command: value
+						script: value
 					};
 					const filePath = element.uri.fsPath;
 					this._writeFile(filePath, this.stringToUnit8Array(JSON.stringify(data)),{ create: false, overwrite: true });
@@ -352,13 +343,13 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		let time = '';
 		if(!isDirectory){
 			try{
-				const file: Command = JSON.parse(fs.readFileSync(element.uri.fsPath, 'utf8'));
-				if(file.command === undefined){
+				const command: Command = JSON.parse(fs.readFileSync(element.uri.fsPath, 'utf8'));
+				if(command.script === undefined){
 					throw new Error("unknown data");
 				}
-				label = file.command;
-				if(file.time) {
-					time = `${file.time}s`;
+				label = command.script;
+				if(command.time) {
+					time = `${command.time}s`;
 				}
 				
 			} catch {
@@ -394,17 +385,27 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 
 export class CommandExplorer {
 
-	private commandExplorer: vscode.TreeView<Entry>;
+	private commandExplorer?: vscode.TreeView<Entry>;
 
 	private selectedFile?: Entry;
 
 	constructor(viewId: string, storagePath: string) {
-		const treeDataProvider = new FileSystemProvider(viewId, storagePath);
-		this.commandExplorer = vscode.window.createTreeView(viewId, { treeDataProvider });
-		vscode.commands.registerCommand(`${viewId}.openFile`, (resource) => this.openResource(resource));
-		this.commandExplorer.onDidChangeSelection(event => this.selectedFile = event.selection[0]);
-		vscode.commands.registerCommand(`${viewId}.add`,() => treeDataProvider.add(this.selectedFile));
-		vscode.commands.registerCommand(`${viewId}.edit`,(element) => treeDataProvider.edit(element));
+		this.setupStorage(storagePath).then(() => {
+			const treeDataProvider = new FileSystemProvider(viewId, storagePath);
+			this.commandExplorer = vscode.window.createTreeView(viewId, { treeDataProvider });
+			vscode.commands.registerCommand(`${viewId}.openFile`, (resource) => this.openResource(resource));
+			this.commandExplorer.onDidChangeSelection(event => this.selectedFile = event.selection[0]);
+			vscode.commands.registerCommand(`${viewId}.add`,() => treeDataProvider.add(this.selectedFile));
+			vscode.commands.registerCommand(`${viewId}.edit`,(element) => treeDataProvider.edit(element));
+		});
+	}
+
+	private async setupStorage(storagePath: string){
+		const isExist = await _.exists(storagePath);
+		if(!isExist){
+			await _.mkdir(storagePath);
+		}
+		return;
 	}
 
 	private openResource(resource: vscode.Uri): void {

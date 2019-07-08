@@ -69,7 +69,23 @@
       {
         "command": "globalCommandExplorer.edit",
         "title": "Edit"
-      }
+      },
+			{
+				"command": "workSpaceCommandExecuter.execute",
+				"title": "Execute",
+				"icon": {
+					"light": "resources/light/exe.svg",
+					"dark": "resources/dark/exe.svg"
+				}
+			},
+			{
+				"command": "globalCommandExecuter.execute",
+				"title": "Execute",
+				"icon": {
+					"light": "resources/light/exe.svg",
+					"dark": "resources/dark/exe.svg"
+				}
+			}
     ],
     "menus": {
       "view/title": [
@@ -83,6 +99,18 @@
           "when": "view == globalCommandExplorer",
           "group": "navigation"
         }
+      ],
+			"view/item/context": [
+				{
+					"command": "workSpaceCommandExecuter.execute",
+					"when": "view == workSpaceCommandExplorer",
+					"group": "inline"
+        },
+        {
+					"command": "globalCommandExecuter.execute",
+					"when": "view == globalCommandExplorer",
+					"group": "inline"
+				}
       ]
     }
   },

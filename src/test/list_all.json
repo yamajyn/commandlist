@@ -1,4 +1,4 @@
 {
-  "command":"ls -a",
+  "script":"ls -a",
   "time":1.1
 }
