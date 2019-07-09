@@ -187,6 +187,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 				}
 			});
 	}
+
 	edit(element?: Entry){
 		console.log(element);
 		if(element && element.type === vscode.FileType.File){
@@ -248,7 +249,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		return _.mkdir(uri.fsPath);
 	}
 
-	readFile(uri: vscode.Uri): Uint8Array | Thenable<Uint8Array> {
+	readFile(uri: vscode.Uri): Promise<Uint8Array> {
 		return _.readfile(uri.fsPath);
 	}
 
@@ -378,8 +379,12 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		return path.slice(path.lastIndexOf('/') + 1);
 	}
 
-	getDirectoryPath(path: string): string{
+	getDirectoryPath(path: string): string {
 		return path.slice(0, path.lastIndexOf('/'));
+	}
+
+	isExists(path: string): Promise<boolean> {
+		return _.exists(path);
 	}
 }
 
