@@ -5,8 +5,7 @@
 ![GitHub release](https://img.shields.io/github/release/yamajyn/commandlist.svg?style=flat)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
 
-![commandlist](resources/dark/icon.svg)
-![commandlist](resources/light/icon.svg)
+![commandlist](resources/icon@64.svg)
 
 Run and Save commands in WorkSpace or Global
 
