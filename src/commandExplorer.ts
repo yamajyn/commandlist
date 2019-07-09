@@ -220,7 +220,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		return { dispose: () => watcher.close() };
 	}
 
-	stat(uri: vscode.Uri): vscode.FileStat | Thenable<vscode.FileStat> {
+	stat(uri: vscode.Uri): Thenable<vscode.FileStat> {
 		return this._stat(uri.fsPath);
 	}
 
@@ -228,7 +228,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		return new FileStat(await _.stat(path));
 	}
 
-	readDirectory(uri: vscode.Uri): [string, vscode.FileType][] | Thenable<[string, vscode.FileType][]> {
+	readDirectory(uri: vscode.Uri): Thenable<[string, vscode.FileType][]> {
 		return this._readDirectory(uri);
 	}
 
@@ -245,7 +245,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		return Promise.resolve(result);
 	}
 
-	createDirectory(uri: vscode.Uri): void | Thenable<void> {
+	createDirectory(uri: vscode.Uri): Thenable<void> {
 		return _.mkdir(uri.fsPath);
 	}
 
@@ -253,7 +253,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		return _.readfile(uri.fsPath);
 	}
 
-	writeFile(uri: vscode.Uri, content: Uint8Array, options: { create: boolean; overwrite: boolean; }): void | Thenable<void> {
+	writeFile(uri: vscode.Uri, content: Uint8Array, options: { create: boolean; overwrite: boolean; }): Thenable<void> {
 		return this._writeFile(uri.fsPath, content, options);
 	}
 
@@ -278,7 +278,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		return Uint8Array.from(Buffer.from(s));
 	}
 
-	delete(uri: vscode.Uri, options: { recursive: boolean; }): void | Thenable<void> {
+	delete(uri: vscode.Uri, options: { recursive: boolean; }): Thenable<void> {
 		if (options.recursive) {
 			return _.rmrf(uri.fsPath);
 		}
@@ -286,7 +286,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		return _.unlink(uri.fsPath);
 	}
 
-	rename(oldUri: vscode.Uri, newUri: vscode.Uri, options: { overwrite: boolean; }): void | Thenable<void> {
+	rename(oldUri: vscode.Uri, newUri: vscode.Uri, options: { overwrite: boolean; }): Thenable<void> {
 		return this._rename(oldUri, newUri, options);
 	}
 
