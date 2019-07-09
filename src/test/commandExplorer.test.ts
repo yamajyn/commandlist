@@ -45,7 +45,7 @@ export const commandExplorerTest = () => {
     });
 
     test('deleteFile', () => {
-      provider.delete(dir, { recursive : true }).then( _ => {
+      return provider.delete(dir, { recursive : true }).then( _ => {
         return provider.isExists(file.fsPath);
       }).then(result => {
         assert.equal(false, result);
