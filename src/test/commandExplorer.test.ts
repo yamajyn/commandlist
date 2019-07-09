@@ -43,5 +43,9 @@ export const commandExplorerTest = () => {
     test('isJson', () => {
       assert.equal(true, provider.isJson(file.fsPath));
     });
+
+    test('deleteFile', () => {
+      provider.delete(dir, { recursive : true });
+    });
   });
 };
