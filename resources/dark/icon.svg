@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28" height="28" viewBox="0 0 28 28">
+  <defs>
+    <clipPath id="clip-icon_1">
+      <rect width="28" height="28"/>
+    </clipPath>
+  </defs>
+  <g id="icon_1" data-name="icon – 1" clip-path="url(#clip-icon_1)">
+    <g id="group_2" data-name="group 2">
+      <g id="group_1" data-name="group 1">
+        <g id="circle_1" data-name="circle 1" fill="none" stroke="#fff" stroke-width="2.5">
+          <circle cx="14" cy="14" r="14" stroke="none"/>
+          <circle cx="14" cy="14" r="12.75" fill="none"/>
+        </g>
+      </g>
+      <path id="path_2" data-name="path 2" d="M11.767,6.939H5.949v8.6h5.818V12.4H9.274V10.233h2.492Z" fill="#fff"/>
+      <path id="path_3" data-name="path 3" d="M15.645,2.316V25.982H12.257V2.316Z" fill="#fff"/>
+      <path id="path_4" data-name="path 4" d="M16.177,6.939v3.282H22.11V6.939Z" fill="#fff"/>
+      <path id="path_5" data-name="path 5" d="M16.177,12.4v3.191h2.548v2.432H16.177v3.215h5.929V12.4Z" fill="#fff"/>
+      <path id="path_6" data-name="path 6" d="M5.952,18.045v3.2h5.811v-3.2Z" fill="#fff"/>
+    </g>
+  </g>
+</svg>

@@ -1,20 +1,19 @@
-# commandlist README
+# Command List 
 
-This is the README for your extension "commandlist". After writing up a brief description, we recommend including the following sections.
+[![CircleCI](https://circleci.com/gh/yamajyn/commandlist/tree/master.svg?style=shield)](https://circleci.com/gh/yamajyn/commandlist/tree/master)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=9RLWXDPUFZC56&currency_code=JPY&source=url)
+![GitHub release](https://img.shields.io/github/release/yamajyn/commandlist.svg?style=flat)
+![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
+
+![commandlist](resources/dark/icon.svg)
+![commandlist](resources/light/icon.svg)
+
+Run and Save commands in WorkSpace or Global
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- Save and display command like File Explorer
+- Select and execute command in terminal
 
 ## Extension Settings
 
@@ -27,39 +26,21 @@ This extension contributes the following settings:
 * `myExtension.enable`: enable/disable this extension
 * `myExtension.thing`: set to `blah` to do something
 
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
 ## Release Notes
 
 Users appreciate release notes as you update your extension.
 
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Initial release of commandlist
 
 -----------------------------------------------------------------------------------------------------------
 
-## Working with Markdown
+## Changelog
 
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+see [here](CHANGELOG.md)
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
+## License
+MIT
 
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+**Happy Coding!**  😎
