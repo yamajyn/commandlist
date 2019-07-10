@@ -5,8 +5,7 @@
 ![GitHub release](https://img.shields.io/github/release/yamajyn/commandlist.svg?style=flat)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
 
-![commandlist](resources/dark/icon.svg)
-![commandlist](resources/light/icon.svg)
+![commandlist](resources/icon@64.svg)
 
 Run and Save commands in WorkSpace or Global
 
@@ -17,22 +16,20 @@ Run and Save commands in WorkSpace or Global
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
 
 This extension contributes the following settings:
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+* `commandList.enable`: enable/disable this extension
 
 ## Release Notes
-
-Users appreciate release notes as you update your extension.
 
 ### 1.0.0
 
 Initial release of commandlist
+
+### 0.1.0
+
+create Command explorer and command executer.
 
 -----------------------------------------------------------------------------------------------------------
 
