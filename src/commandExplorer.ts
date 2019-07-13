@@ -189,7 +189,6 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 	}
 
 	edit(element?: Entry){
-		console.log(element);
 		if(element && element.type === vscode.FileType.File){
 			const file: Command = JSON.parse(fs.readFileSync(element.uri.fsPath, 'utf8'));
 			vscode.window.showInputBox({ placeHolder: 'Edit command and Save', value:file.script ? file.script : '' })
@@ -402,6 +401,7 @@ export class CommandExplorer {
 			this.commandExplorer.onDidChangeSelection(event => this.selectedFile = event.selection[0]);
 			vscode.commands.registerCommand(`${viewId}.add`,() => treeDataProvider.add(this.selectedFile));
 			vscode.commands.registerCommand(`${viewId}.edit`,(element) => treeDataProvider.edit(element));
+			vscode.commands.registerCommand(`${viewId}.delete`, (element: Entry) => treeDataProvider.delete(element.uri,{ recursive: true }));
 		});
 	}
 
