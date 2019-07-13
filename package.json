@@ -71,6 +71,14 @@
         "title": "Edit"
       },
 			{
+				"command": "workSpaceCommandExplorer.delete",
+				"title": "Delete"
+      },
+      {
+				"command": "globalCommandExplorer.delete",
+				"title": "Delete"
+			},
+			{
 				"command": "workSpaceCommandExecuter.execute",
 				"title": "Execute",
 				"icon": {
@@ -110,6 +118,14 @@
 					"command": "globalCommandExecuter.execute",
 					"when": "view == globalCommandExplorer",
 					"group": "inline"
+        },
+        {
+					"command": "workSpaceCommandExplorer.delete",
+					"when": "view == workSpaceCommandExplorer && viewItem == file"
+        },
+        {
+					"command": "globalCommandExplorer.delete",
+					"when": "view == globalCommandExplorer && viewItem == file"
 				}
       ]
     }
