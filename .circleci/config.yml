@@ -6,16 +6,8 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: circleci/node:10.7.0-browsers
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
     working_directory: ~/repo
-
     steps:
       - checkout
 
@@ -36,3 +28,18 @@ jobs:
       # run tests!
       - run: sleep 5
       - run: yarn test
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  release:
+    docker:
+      - image: circleci/node:10.7.0-browsers
+    working_directory: ~/repo
+    branches:
+      only:
+        - master
+    steps:
+      - attach_workspace: # workspaceをアタッチする
+          at: .
+      - run: vsce publish -p $PERSONAL_ACCESS_TOKEN
