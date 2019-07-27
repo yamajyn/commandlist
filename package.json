@@ -3,7 +3,7 @@
   "displayName": "CommandList",
   "description": "シェルコマンドを保存、実行できます",
   "publisher": "yamajyn",
-  "icon": "resources/icon@128.png",
+  "icon": "https://github.com/yamajyn/commandlist/blob/master/resources/icon%40128.png",
   "version": "0.0.2",
   "license": "MIT",
   "galleryBanner": {
@@ -109,30 +109,30 @@
         "command": "globalCommandExplorer.edit",
         "title": "Edit"
       },
-			{
-				"command": "workSpaceCommandExplorer.delete",
-				"title": "Delete"
+      {
+        "command": "workSpaceCommandExplorer.delete",
+        "title": "Delete"
       },
       {
-				"command": "globalCommandExplorer.delete",
-				"title": "Delete"
-			},
-			{
-				"command": "workSpaceCommandExecuter.execute",
-				"title": "Execute",
-				"icon": {
-					"light": "resources/light/exe.svg",
-					"dark": "resources/dark/exe.svg"
-				}
-			},
-			{
-				"command": "globalCommandExecuter.execute",
-				"title": "Execute",
-				"icon": {
-					"light": "resources/light/exe.svg",
-					"dark": "resources/dark/exe.svg"
-				}
-			}
+        "command": "globalCommandExplorer.delete",
+        "title": "Delete"
+      },
+      {
+        "command": "workSpaceCommandExecuter.execute",
+        "title": "Execute",
+        "icon": {
+          "light": "resources/light/exe.svg",
+          "dark": "resources/dark/exe.svg"
+        }
+      },
+      {
+        "command": "globalCommandExecuter.execute",
+        "title": "Execute",
+        "icon": {
+          "light": "resources/light/exe.svg",
+          "dark": "resources/dark/exe.svg"
+        }
+      }
     ],
     "menus": {
       "view/title": [
@@ -167,33 +167,33 @@
           "group": "navigation"
         }
       ],
-			"view/item/context": [
-				{
-					"command": "workSpaceCommandExecuter.execute",
-					"when": "view == workSpaceCommandExplorer && viewItem == file",
-					"group": "inline"
+      "view/item/context": [
+        {
+          "command": "workSpaceCommandExecuter.execute",
+          "when": "view == workSpaceCommandExplorer && viewItem == file",
+          "group": "inline"
         },
         {
-					"command": "globalCommandExecuter.execute",
-					"when": "view == globalCommandExplorer && viewItem == file",
-					"group": "inline"
+          "command": "globalCommandExecuter.execute",
+          "when": "view == globalCommandExplorer && viewItem == file",
+          "group": "inline"
         },
         {
-					"command": "workSpaceCommandExplorer.delete",
-					"when": "view == workSpaceCommandExplorer"
+          "command": "workSpaceCommandExplorer.delete",
+          "when": "view == workSpaceCommandExplorer"
         },
         {
-					"command": "globalCommandExplorer.delete",
-					"when": "view == globalCommandExplorer"
-				},
-        {
-					"command": "workSpaceCommandExplorer.edit",
-					"when": "view == workSpaceCommandExplorer"
+          "command": "globalCommandExplorer.delete",
+          "when": "view == globalCommandExplorer"
         },
         {
-					"command": "globalCommandExplorer.edit",
-					"when": "view == globalCommandExplorer"
-				}
+          "command": "workSpaceCommandExplorer.edit",
+          "when": "view == workSpaceCommandExplorer"
+        },
+        {
+          "command": "globalCommandExplorer.edit",
+          "when": "view == globalCommandExplorer"
+        }
       ]
     }
   },

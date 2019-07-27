@@ -1,4 +1,4 @@
-![commandlist](resources/preview.png)
+![commandlist](https://github.com/yamajyn/commandlist/blob/master/resources/preview.png)
 # Command List 
 
 [![CircleCI](https://circleci.com/gh/yamajyn/commandlist/tree/master.svg?style=shield)](https://circleci.com/gh/yamajyn/commandlist/tree/master)
@@ -9,7 +9,7 @@
 
 Run and Save commands in WorkSpace or Global
 
-![commandlist](resources/explain.gif)
+![commandlist](https://github.com/yamajyn/commandlist/blob/master/resources/explain.gif)
 
 ## Features
 
@@ -41,7 +41,7 @@ create Command explorer and command executer.
 
 ## Changelog
 
-see [here](CHANGELOG.md)
+see [here](https://github.com/yamajyn/commandlist/blob/master/CHANGELOG.md)
 
 ## License
 MIT
