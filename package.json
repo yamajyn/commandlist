@@ -3,7 +3,7 @@
   "displayName": "CommandList",
   "description": "シェルコマンドを保存、実行できます",
   "publisher": "yamajyn",
-  "icon": "resources/icon@128.svg",
+  "icon": "resources/icon@128.png",
   "version": "0.0.2",
   "license": "MIT",
   "galleryBanner": {
