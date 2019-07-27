@@ -1,4 +1,4 @@
-![commandlist](resources/icon@64.svg)
+![commandlist](resources/preview.png)
 # Command List 
 
 [![CircleCI](https://circleci.com/gh/yamajyn/commandlist/tree/master.svg?style=shield)](https://circleci.com/gh/yamajyn/commandlist/tree/master)
