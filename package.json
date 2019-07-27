@@ -2,7 +2,14 @@
   "name": "commandlist",
   "displayName": "CommandList",
   "description": "シェルコマンドを保存、実行できます",
-  "version": "0.0.1",
+  "publisher": "yamajyn",
+  "icon": "resources/icon@128.svg",
+  "version": "0.0.2",
+  "license": "MIT",
+  "galleryBanner": {
+    "color": "#ffffff",
+    "theme": "dark"
+  },
   "engines": {
     "vscode": "^1.35.0"
   },
