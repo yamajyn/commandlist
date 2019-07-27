@@ -50,16 +50,48 @@
         "command": "workSpaceCommandExplorer.add",
         "title": "Add",
         "icon": {
-          "light": "resources/light/add.svg",
-          "dark": "resources/dark/add.svg"
+          "light": "resources/light/playlist_add-24px.svg",
+          "dark": "resources/dark/playlist_add-24px.svg"
         }
       },
       {
         "command": "globalCommandExplorer.add",
         "title": "Add",
         "icon": {
-          "light": "resources/light/add.svg",
-          "dark": "resources/dark/add.svg"
+          "light": "resources/light/playlist_add-24px.svg",
+          "dark": "resources/dark/playlist_add-24px.svg"
+        }
+      },
+      {
+        "command": "workSpaceCommandExplorer.addFolder",
+        "title": "AddFolder",
+        "icon": {
+          "light": "resources/light/create_new_folder-24px.svg",
+          "dark": "resources/dark/create_new_folder-24px.svg"
+        }
+      },
+      {
+        "command": "globalCommandExplorer.addFolder",
+        "title": "AddFolder",
+        "icon": {
+          "light": "resources/light/create_new_folder-24px.svg",
+          "dark": "resources/dark/create_new_folder-24px.svg"
+        }
+      },
+      {
+        "command": "workSpaceCommandExplorer.sync",
+        "title": "Sync",
+        "icon": {
+          "light": "resources/light/sync-24px.svg",
+          "dark": "resources/dark/sync-24px.svg"
+        }
+      },
+      {
+        "command": "globalCommandExplorer.sync",
+        "title": "Sync",
+        "icon": {
+          "light": "resources/light/sync-24px.svg",
+          "dark": "resources/dark/sync-24px.svg"
         }
       },
       {
@@ -106,26 +138,54 @@
           "command": "globalCommandExplorer.add",
           "when": "view == globalCommandExplorer",
           "group": "navigation"
+        },
+        {
+          "command": "globalCommandExplorer.sync",
+          "when": "view == globalCommandExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "workSpaceCommandExplorer.sync",
+          "when": "view == workSpaceCommandExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "workSpaceCommandExplorer.addFolder",
+          "when": "view == workSpaceCommandExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "globalCommandExplorer.addFolder",
+          "when": "view == globalCommandExplorer",
+          "group": "navigation"
         }
       ],
 			"view/item/context": [
 				{
 					"command": "workSpaceCommandExecuter.execute",
-					"when": "view == workSpaceCommandExplorer",
+					"when": "view == workSpaceCommandExplorer && viewItem == file",
 					"group": "inline"
         },
         {
 					"command": "globalCommandExecuter.execute",
-					"when": "view == globalCommandExplorer",
+					"when": "view == globalCommandExplorer && viewItem == file",
 					"group": "inline"
         },
         {
 					"command": "workSpaceCommandExplorer.delete",
-					"when": "view == workSpaceCommandExplorer && viewItem == file"
+					"when": "view == workSpaceCommandExplorer"
         },
         {
 					"command": "globalCommandExplorer.delete",
-					"when": "view == globalCommandExplorer && viewItem == file"
+					"when": "view == globalCommandExplorer"
+				},
+        {
+					"command": "workSpaceCommandExplorer.edit",
+					"when": "view == workSpaceCommandExplorer"
+        },
+        {
+					"command": "globalCommandExplorer.edit",
+					"when": "view == globalCommandExplorer"
 				}
       ]
     }
