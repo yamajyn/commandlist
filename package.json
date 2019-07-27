@@ -137,12 +137,12 @@
 			"view/item/context": [
 				{
 					"command": "workSpaceCommandExecuter.execute",
-					"when": "view == workSpaceCommandExplorer",
+					"when": "view == workSpaceCommandExplorer && viewItem == file",
 					"group": "inline"
         },
         {
 					"command": "globalCommandExecuter.execute",
-					"when": "view == globalCommandExplorer",
+					"when": "view == globalCommandExplorer && viewItem == file",
 					"group": "inline"
         },
         {

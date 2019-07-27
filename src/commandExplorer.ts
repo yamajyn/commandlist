@@ -188,6 +188,20 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 			});
 	}
 
+	addFolder(selected?: Entry){
+		vscode.window.showInputBox({ placeHolder: 'Enter a new group name' })
+			.then(value => {
+				if (value !== null && value !== undefined) {
+					if(selected){
+						const filePath = selected.type === vscode.FileType.Directory ? `${selected.uri.fsPath}/${value}` : `${this.getDirectoryPath(selected.uri.fsPath)}/${value}`;
+						this.createDirectory(vscode.Uri.file(filePath));
+					}else{
+						this.createDirectory(vscode.Uri.file(`${this.rootUri.fsPath}/${value}`));
+					}
+				}
+			});
+	}
+
 	edit(element?: Entry){
 		if(element && element.type === vscode.FileType.File){
 			const file: Command = JSON.parse(fs.readFileSync(element.uri.fsPath, 'utf8'));
@@ -400,6 +414,7 @@ export class CommandExplorer {
 			vscode.commands.registerCommand(`${viewId}.openFile`, (resource) => this.openResource(resource));
 			this.commandExplorer.onDidChangeSelection(event => this.selectedFile = event.selection[0]);
 			vscode.commands.registerCommand(`${viewId}.add`,() => treeDataProvider.add(this.selectedFile));
+			vscode.commands.registerCommand(`${viewId}.addFolder`,() => treeDataProvider.addFolder(this.selectedFile));
 			vscode.commands.registerCommand(`${viewId}.edit`,(element) => treeDataProvider.edit(element));
 			vscode.commands.registerCommand(`${viewId}.delete`, (element: Entry) => treeDataProvider.delete(element.uri,{ recursive: true }));
 		});
