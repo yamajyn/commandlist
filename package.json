@@ -173,11 +173,19 @@
         },
         {
 					"command": "workSpaceCommandExplorer.delete",
-					"when": "view == workSpaceCommandExplorer && viewItem == file"
+					"when": "view == workSpaceCommandExplorer"
         },
         {
 					"command": "globalCommandExplorer.delete",
-					"when": "view == globalCommandExplorer && viewItem == file"
+					"when": "view == globalCommandExplorer"
+				},
+        {
+					"command": "workSpaceCommandExplorer.edit",
+					"when": "view == workSpaceCommandExplorer"
+        },
+        {
+					"command": "globalCommandExplorer.edit",
+					"when": "view == globalCommandExplorer"
 				}
       ]
     }

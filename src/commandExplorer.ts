@@ -222,6 +222,14 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 					this._writeFile(filePath, this.stringToUnit8Array(JSON.stringify(data)),{ create: false, overwrite: true });
 				}
 			});
+		}else if(element && element.type === vscode.FileType.Directory){
+			vscode.window.showInputBox({ placeHolder: 'Edit Folder name', value: this.getFileName(element.uri.fsPath)})
+			.then(value => {
+				if (value !== null && value !== undefined) {
+					const newPath = vscode.Uri.file(`${this.getDirectoryPath(element.uri.fsPath)}/${value}`);
+					this.rename(element.uri, newPath, { overwrite: true });
+				}
+			});
 		}
 	}
 
