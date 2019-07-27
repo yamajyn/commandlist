@@ -1,3 +1,4 @@
+![commandlist](resources/icon@64.svg)
 # Command List 
 
 [![CircleCI](https://circleci.com/gh/yamajyn/commandlist/tree/master.svg?style=shield)](https://circleci.com/gh/yamajyn/commandlist/tree/master)
@@ -5,9 +6,10 @@
 ![GitHub release](https://img.shields.io/github/release/yamajyn/commandlist.svg?style=flat)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
 
-![commandlist](resources/icon@64.svg)
 
 Run and Save commands in WorkSpace or Global
+
+![commandlist](resources/explain.gif)
 
 ## Features
 
@@ -25,7 +27,11 @@ This extension contributes the following settings:
 
 ### 1.0.0
 
-Initial release of commandlist
+Initial release of commandlist.
+
+### 0.2.0
+
+Function addition of command group.
 
 ### 0.1.0
 
