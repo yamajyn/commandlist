@@ -4,7 +4,7 @@
   "description": "シェルコマンドを保存、実行できます",
   "publisher": "yamajyn",
   "icon": "resources/icon@128.png",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "license": "MIT",
   "galleryBanner": {
     "color": "#ffffff",
