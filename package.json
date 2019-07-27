@@ -3,18 +3,33 @@
   "displayName": "CommandList",
   "description": "シェルコマンドを保存、実行できます",
   "publisher": "yamajyn",
-  "icon": "https://github.com/yamajyn/commandlist/blob/master/resources/icon%40128.png",
+  "icon": "resources/icon@128.png",
   "version": "0.0.2",
   "license": "MIT",
   "galleryBanner": {
     "color": "#ffffff",
     "theme": "dark"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yamajyn/commandlist"
+  },
   "engines": {
     "vscode": "^1.35.0"
   },
   "categories": [
     "Other"
+  ],
+  "keywords": [
+    "command",
+    "list",
+    "shell",
+    "script",
+    "bash",
+    "explorer",
+    "exe",
+    "save",
+    "folder"
   ],
   "activationEvents": [
     "onView:commandList",
@@ -212,6 +227,7 @@
     "@types/uuid": "^3.4.5",
     "tslint": "^5.12.1",
     "typescript": "^3.3.1",
+    "vsce": "^1.66.0",
     "vscode": "^1.1.28"
   },
   "dependencies": {
