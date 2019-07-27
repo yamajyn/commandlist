@@ -43,3 +43,11 @@ jobs:
       - attach_workspace: # workspaceをアタッチする
           at: .
       - run: vsce publish -p $PERSONAL_ACCESS_TOKEN
+workflows:
+  version: 2
+  build_and_release:
+    jobs:
+      - build
+      - release:
+          requires:
+            - build
