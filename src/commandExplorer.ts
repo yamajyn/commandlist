@@ -151,6 +151,9 @@ export class FileStat implements vscode.FileStat {
 
 export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscode.FileSystemProvider {
 
+	private _onDidChangeTreeData: vscode.EventEmitter<Entry | undefined> = new vscode.EventEmitter<Entry | undefined>();
+	readonly onDidChangeTreeData: vscode.Event<Entry | undefined> = this._onDidChangeTreeData.event;
+	
 	private _onDidChangeFile: vscode.EventEmitter<vscode.FileChangeEvent[]>;
 
 	private rootUri: vscode.Uri;
@@ -162,6 +165,10 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		this.rootUri = vscode.Uri.file(rootPath);
 		this.viewId = viewId;
 		this.watch(this.rootUri,{recursive:true, excludes: ['.json']});
+	}
+
+	refresh(): void {
+		this._onDidChangeTreeData.fire();
 	}
 
 	get onDidChangeFile(): vscode.Event<vscode.FileChangeEvent[]> {
@@ -222,7 +229,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 		const watcher = fs.watch(uri.fsPath, { recursive: options.recursive }, async (event: string, filename: string | Buffer) => {
 			const filepath = path.join(uri.fsPath, _.normalizeNFC(filename.toString()));
 
-			// TODO support excludes (using minimatch library?)
+			this.refresh();
 
 			this._onDidChangeFile.fire([{
 				type: event === 'change' ? vscode.FileChangeType.Changed : await _.exists(filepath) ? vscode.FileChangeType.Created : vscode.FileChangeType.Deleted,
@@ -415,6 +422,7 @@ export class CommandExplorer {
 			this.commandExplorer.onDidChangeSelection(event => this.selectedFile = event.selection[0]);
 			vscode.commands.registerCommand(`${viewId}.add`,() => treeDataProvider.add(this.selectedFile));
 			vscode.commands.registerCommand(`${viewId}.addFolder`,() => treeDataProvider.addFolder(this.selectedFile));
+			vscode.commands.registerCommand(`${viewId}.sync`,() => treeDataProvider.refresh());
 			vscode.commands.registerCommand(`${viewId}.edit`,(element) => treeDataProvider.edit(element));
 			vscode.commands.registerCommand(`${viewId}.delete`, (element: Entry) => treeDataProvider.delete(element.uri,{ recursive: true }));
 		});

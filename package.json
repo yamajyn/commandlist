@@ -79,6 +79,22 @@
         }
       },
       {
+        "command": "workSpaceCommandExplorer.sync",
+        "title": "Sync",
+        "icon": {
+          "light": "resources/light/sync-24px.svg",
+          "dark": "resources/dark/sync-24px.svg"
+        }
+      },
+      {
+        "command": "globalCommandExplorer.sync",
+        "title": "Sync",
+        "icon": {
+          "light": "resources/light/sync-24px.svg",
+          "dark": "resources/dark/sync-24px.svg"
+        }
+      },
+      {
         "command": "workSpaceCommandExplorer.edit",
         "title": "Edit"
       },
@@ -121,6 +137,16 @@
         {
           "command": "globalCommandExplorer.add",
           "when": "view == globalCommandExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "globalCommandExplorer.sync",
+          "when": "view == globalCommandExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "workSpaceCommandExplorer.sync",
+          "when": "view == workSpaceCommandExplorer",
           "group": "navigation"
         },
         {
