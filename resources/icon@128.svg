@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <clipPath id="clip-icon">
+      <rect width="128" height="128"/>
+    </clipPath>
+  </defs>
+  <g id="icon" clip-path="url(#clip-icon)">
+    <circle id="楕円形_4" data-name="楕円形 4" cx="52" cy="52" r="52" transform="translate(12 12)" fill="#000b3b"/>
+    <g id="グループ_5" data-name="グループ 5" transform="translate(31.217 21.352)">
+      <g id="グループ_2" data-name="グループ 2" transform="translate(5.949 2.316)">
+        <path id="パス_2" data-name="パス 2" d="M25.622,6.939H5.949v29.1H25.622V25.4H17.194V18.078h8.428Z" transform="translate(-5.949 8.694)" fill="#fff"/>
+        <path id="パス_3" data-name="パス 3" d="M23.713,2.316v80.03H12.257V2.316Z" transform="translate(9.073 -2.316)" fill="#fff"/>
+        <path id="パス_4" data-name="パス 4" d="M16.177,6.939v11.1H36.241V6.939Z" transform="translate(18.409 8.694)" fill="#fff"/>
+        <path id="パス_5" data-name="パス 5" d="M16.177,12.4V23.185h8.617V31.41H16.177V42.282H36.225V12.4Z" transform="translate(18.409 21.689)" fill="#fff"/>
+        <path id="パス_6" data-name="パス 6" d="M5.952,18.045V28.867H25.6V18.045Z" transform="translate(-5.941 35.143)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>
