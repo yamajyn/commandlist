@@ -4,10 +4,11 @@ import * as vscode from "vscode";
 import { Command } from "../type/Command";
 
 suite("FileSystemProvider　normal", () => {
-
+  console.log("a");
   const provider = new FileSystemProvider("test", __dirname);
   test("getDirectoryPath", () => {
     assert.equal(__dirname, provider.getDirectoryPath(__filename));
+    console.log("b");
   });
 
   const dir = vscode.Uri.file(__dirname + "/testdir");
@@ -16,6 +17,7 @@ suite("FileSystemProvider　normal", () => {
       return provider.isExists(dir.fsPath);
     }).then(result => {
         assert.equal(true, result);
+        console.log("c");
       });
     
   });
@@ -30,6 +32,7 @@ suite("FileSystemProvider　normal", () => {
       return provider.isExists(file.fsPath);
     }).then(result => {
       assert.equal(true, result);
+      console.log("d");
     });
   });
 
@@ -48,6 +51,8 @@ suite("FileSystemProvider　normal", () => {
       return provider.isExists(file.fsPath);
     }).then(result => {
       assert.equal(false, result);
+      console.log("e");
     });
   });
+  console.log("f");
 });
