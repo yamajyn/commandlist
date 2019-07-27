@@ -36,9 +36,6 @@ jobs:
     docker:
       - image: circleci/node:10.7.0-browsers
     working_directory: ~/repo
-    branches:
-      only:
-        - master
     steps:
       - attach_workspace: # workspaceをアタッチする
           at: .
