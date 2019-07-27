@@ -50,16 +50,32 @@
         "command": "workSpaceCommandExplorer.add",
         "title": "Add",
         "icon": {
-          "light": "resources/light/add.svg",
-          "dark": "resources/dark/add.svg"
+          "light": "resources/light/playlist_add-24px.svg",
+          "dark": "resources/dark/playlist_add-24px.svg"
         }
       },
       {
         "command": "globalCommandExplorer.add",
         "title": "Add",
         "icon": {
-          "light": "resources/light/add.svg",
-          "dark": "resources/dark/add.svg"
+          "light": "resources/light/playlist_add-24px.svg",
+          "dark": "resources/dark/playlist_add-24px.svg"
+        }
+      },
+      {
+        "command": "workSpaceCommandExplorer.addFolder",
+        "title": "AddFolder",
+        "icon": {
+          "light": "resources/light/create_new_folder-24px.svg",
+          "dark": "resources/dark/create_new_folder-24px.svg"
+        }
+      },
+      {
+        "command": "globalCommandExplorer.addFolder",
+        "title": "AddFolder",
+        "icon": {
+          "light": "resources/light/create_new_folder-24px.svg",
+          "dark": "resources/dark/create_new_folder-24px.svg"
         }
       },
       {
@@ -104,6 +120,16 @@
         },
         {
           "command": "globalCommandExplorer.add",
+          "when": "view == globalCommandExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "workSpaceCommandExplorer.addFolder",
+          "when": "view == workSpaceCommandExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "globalCommandExplorer.addFolder",
           "when": "view == globalCommandExplorer",
           "group": "navigation"
         }

@@ -169,7 +169,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 	}
 
 	add(selected?: Entry){
-		vscode.window.showInputBox({ placeHolder: 'Enter the new command' })
+		vscode.window.showInputBox({ placeHolder: 'Enter a new command script' })
 			.then(value => {
 				if (value !== null && value !== undefined) {
 					if(selected){
