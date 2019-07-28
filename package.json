@@ -1,7 +1,7 @@
 {
   "name": "commandlist",
   "displayName": "CommandList",
-  "description": "シェルコマンドを保存、実行できます",
+  "description": "Save and display shell commands like File Explorer",
   "publisher": "yamajyn",
   "icon": "resources/icon@128.png",
   "version": "1.0.0",
@@ -13,6 +13,11 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/yamajyn/commandlist"
+  },
+  "homepage": "https://github.com/yamajyn/commandlist/blob/master/README.md",
+  "bugs": {
+    "url": "https://github.com/yamajyn/commandlist/issues",
+    "email": "j.yama.japan@outlook.jp"
   },
   "engines": {
     "vscode": "^1.35.0"

@@ -16,13 +16,6 @@ Run and Save commands in WorkSpace or Global
 - Save and display command like File Explorer
 - Select and execute command in terminal
 
-## Extension Settings
-
-
-This extension contributes the following settings:
-
-* `commandList.enable`: enable/disable this extension
-
 ## Release Notes
 
 ### 1.0.0
