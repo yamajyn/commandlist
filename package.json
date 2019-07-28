@@ -4,11 +4,11 @@
   "description": "Save and display shell commands like File Explorer",
   "publisher": "yamajyn",
   "icon": "resources/icon@128.png",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "galleryBanner": {
     "color": "#ffffff",
-    "theme": "dark"
+    "theme": "light"
   },
   "repository": {
     "type": "git",
