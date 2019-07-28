@@ -1,4 +1,4 @@
-![commandlist](https://github.com/yamajyn/commandlist/blob/master/resources/preview.png)
+![commandlist](resources/preview.png)
 # Command List 
 
 [![CircleCI](https://circleci.com/gh/yamajyn/commandlist/tree/master.svg?style=shield)](https://circleci.com/gh/yamajyn/commandlist/tree/master)
@@ -9,7 +9,7 @@
 
 Run and Save commands in WorkSpace or Global
 
-![commandlist](https://github.com/yamajyn/commandlist/blob/master/resources/explain.gif)
+![commandlist](resources/explain.gif)
 
 ## Features
 
