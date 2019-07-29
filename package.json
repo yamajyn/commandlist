@@ -4,7 +4,7 @@
   "description": "Save and display shell commands like File Explorer",
   "publisher": "yamajyn",
   "icon": "resources/icon@128.png",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "galleryBanner": {
     "color": "#ffffff",
@@ -141,16 +141,16 @@
         "command": "workSpaceCommandExecuter.execute",
         "title": "Execute",
         "icon": {
-          "light": "resources/light/exe.svg",
-          "dark": "resources/dark/exe.svg"
+          "light": "resources/light/play_circle_filled-15px.svg",
+          "dark": "resources/dark/play_circle_filled-15px.svg"
         }
       },
       {
         "command": "globalCommandExecuter.execute",
         "title": "Execute",
         "icon": {
-          "light": "resources/light/exe.svg",
-          "dark": "resources/dark/exe.svg"
+          "light": "resources/light/play_circle_filled-15px.svg",
+          "dark": "resources/dark/play_circle_filled-15px.svg"
         }
       }
     ],
