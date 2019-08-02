@@ -42,6 +42,10 @@ right-click on command
 
 ## Release Notes
 
+### 1.0.2
+
+Put commands in alphabetical order
+
 ### 1.0.1
 
 Fix light theme icon.

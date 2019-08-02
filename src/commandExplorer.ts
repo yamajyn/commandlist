@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
 import * as rimraf from 'rimraf';
 import * as uuid from 'uuid/v4';
+import * as sanitizeFilename from 'sanitize-filename';
 import { Entry } from './type/Entry';
 import { Command } from './type/Command';
 
@@ -179,17 +180,15 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
     vscode.window.showInputBox({ placeHolder: 'Enter a new command script' })
       .then(value => {
         if (value !== null && value !== undefined) {
+          const fileName = sanitizeFilename(value).slice(0, 250);
+          const command: Command = {
+            script: value
+          };
           if(selected){
-            const command: Command = {
-              script: value
-            };
-            const filePath = selected.type === vscode.FileType.Directory ? `${selected.uri.fsPath}/${uuid()}.json` : `${this.getDirectoryPath(selected.uri.fsPath)}/${uuid()}.json`;
+            const filePath = selected.type === vscode.FileType.Directory ? `${selected.uri.fsPath}/${fileName}.json` : `${this.getDirectoryPath(selected.uri.fsPath)}/${fileName}.json`;
             this._writeFile(filePath, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
           }else{
-            const command: Command = {
-              script: value
-            };
-            this._writeFile(`${this.rootUri.fsPath}/${uuid()}.json`, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
+            this._writeFile(`${this.rootUri.fsPath}/${fileName}.json`, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
           }
         }
       });
@@ -212,14 +211,18 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
   edit(element?: Entry){
     if(element && element.type === vscode.FileType.File){
       const file: Command = JSON.parse(fs.readFileSync(element.uri.fsPath, 'utf8'));
-      vscode.window.showInputBox({ placeHolder: 'Edit command and Save', value:file.script ? file.script : '' })
-      .then(value => {
+      vscode.window.showInputBox({
+        placeHolder: 'Edit command and Save',
+        value:file.script ? file.script : ''
+      }).then(async value => {
         if (value !== null && value !== undefined) {
           const data: Command = {
             script: value
           };
-          const filePath = element.uri.fsPath;
-          this._writeFile(filePath, this.stringToUnit8Array(JSON.stringify(data)),{ create: false, overwrite: true });
+          const fileName = sanitizeFilename(value).slice(0, 250);
+          const newUri = vscode.Uri.file(`${this.getDirectoryPath(element.uri.fsPath)}/${fileName}.json`);
+          await this.delete(element.uri, { recursive: false });
+          await this._writeFile(newUri.fsPath, this.stringToUnit8Array(JSON.stringify(data)),{ create: true, overwrite: true });
         }
       });
     }else if(element && element.type === vscode.FileType.Directory){
@@ -339,31 +342,23 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
   // tree data provider
 
   async getChildren(element?: Entry): Promise<Entry[]> {
-    if (element) {
-      const children = await this.readDirectory(element.uri);
-      return children
-              .filter(([name, type]) => this.isJson(name) || type === vscode.FileType.Directory)
-              .map(([name, type]) => ({ uri: vscode.Uri.file(path.join(element.uri.fsPath, name)), type }));
-    }
-    
-    const rootPath = this.rootUri.fsPath;
-    if (rootPath) {
-      if (!await _.exists(rootPath)){
-        this.createDirectory(this.rootUri);
-      }
-      const children = await this.readDirectory(vscode.Uri.file(rootPath));
-      children.sort((a, b) => {
-        if (a[1] === b[1]) {
-          return a[0].localeCompare(b[0]);
-        }
-        return a[1] === vscode.FileType.Directory ? -1 : 1;
-      });
-      return children
-              .filter(([name, type]) => this.isJson(name) || type === vscode.FileType.Directory)
-              .map(([name, type]) => ({ uri: vscode.Uri.file(path.join(rootPath, name)), type }));
-    }
 
-    return [];
+    let uri: vscode.Uri = element ? element.uri : this.rootUri;
+
+    if (!element && !await _.exists(uri.fsPath)){
+      this.createDirectory(this.rootUri);
+      return [];
+    }
+    const children = await this.readDirectory(uri);
+    children.sort((a, b) => {
+      if (a[1] === b[1]) {
+        return a[0].localeCompare(b[0]);
+      }
+      return a[1] === vscode.FileType.Directory ? -1 : 1;
+    });
+    return children
+            .filter(([name, type]) => this.isJson(name) || type === vscode.FileType.Directory)
+            .map(([name, type]) => ({ uri: vscode.Uri.file(path.join(uri.fsPath, name)), type }));
   }
 
   getTreeItem(element: Entry): vscode.TreeItem {
