@@ -183,7 +183,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
     })
       .then(script => 
         vscode.window.showInputBox({
-          placeHolder: 'e.g: Overcome COVID-19.virus',
+          placeHolder: 'e.g: 💊💊💊 Overcome COVID-19.virus 💊💊💊',
           prompt: 'Enter command label name',
           value: script,
           validateInput: this.validateLabelName
