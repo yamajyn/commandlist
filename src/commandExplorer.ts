@@ -230,7 +230,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
       if (script == null) return;
       const label = await vscode.window.showInputBox({
         prompt: '🔖 Edit command label name',
-        value: file.label,
+        value: file.label ? file.label : file.script,
         validateInput: this.validateLabelName
       })
       if (label == null) return;
