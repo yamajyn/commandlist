@@ -177,21 +177,39 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
   }
 
   add(selected?: Entry){
-    vscode.window.showInputBox({ placeHolder: 'Enter a new command script' })
-      .then(value => {
-        if (value !== null && value !== undefined) {
-          const fileName = sanitizeFilename(value).slice(0, 250);
-          const command: Command = {
-            script: value
-          };
-          if(selected){
-            const filePath = selected.type === vscode.FileType.Directory ? `${selected.uri.fsPath}/${fileName}.json` : `${this.getDirectoryPath(selected.uri.fsPath)}/${fileName}.json`;
-            this._writeFile(filePath, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
-          }else{
-            this._writeFile(`${this.rootUri.fsPath}/${fileName}.json`, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
-          }
+    vscode.window.showInputBox({ 
+      placeHolder: 'e.g: rm -rf COVID-19.virus',
+      prompt: 'Enter a new command script'
+    })
+      .then(script => 
+        vscode.window.showInputBox({
+          placeHolder: 'e.g: Overcome COVID-19.virus',
+          prompt: 'Enter command label name',
+          value: script,
+          validateInput: this.validateLabelName
+        })
+          .then(label => { 
+            const command: Command = {
+              script: script,
+              label: label
+            };
+            return command
+          })
+      )
+      .then(command => {
+        let fileName = command.label ? command.label : command.script ? command.script : 'no name';
+        const sanitizedFilename = sanitizeFilename(fileName).slice(0, 250);
+        if(selected){
+          const filePath = selected.type === vscode.FileType.Directory ? `${selected.uri.fsPath}/${fileName}.json` : `${this.getDirectoryPath(selected.uri.fsPath)}/${sanitizedFilename}.json`;
+          this._writeFile(filePath, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
+        }else{
+          this._writeFile(`${this.rootUri.fsPath}/${fileName}.json`, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
         }
       });
+  }
+  
+  private validateLabelName(value: string): string | null {
+    return value.length > 250 ? value : null
   }
 
   addFolder(selected?: Entry){
