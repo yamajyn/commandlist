@@ -207,7 +207,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
         }
       });
   }
-  
+
   private validateLabelName(value: string): string | null {
     return value.length > 250 ? value : null
   }
@@ -382,6 +382,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
   getTreeItem(element: Entry): vscode.TreeItem {
     const isDirectory = element.type === vscode.FileType.Directory;
     let label = this.getFileName(element.uri.fsPath);
+    let tooltip = label;
     let time = '';
     if(!isDirectory){
       try{
@@ -389,7 +390,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
         if(command.script === undefined){
           throw new Error("unknown data");
         }
-        label = command.script;
+        label = command.label ? command.label : command.script;
         if(command.time) {
           time = `${command.time}s`;
         }
@@ -404,6 +405,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
       treeItem.command = { command: `${this.viewId}.edit`, title: "Edit", arguments: [element], };
       treeItem.contextValue = 'file';
       treeItem.description = time;
+      treeItem.tooltip = tooltip
     }
     return treeItem;
   }
