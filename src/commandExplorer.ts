@@ -405,7 +405,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
     if (element.type === vscode.FileType.File) {
       treeItem.command = { command: `${this.viewId}.edit`, title: "Edit", arguments: [element], };
       treeItem.contextValue = 'file';
-      treeItem.description = time;
+      treeItem.description = time ? time : tooltip;
       treeItem.tooltip = tooltip
     }
     return treeItem;
