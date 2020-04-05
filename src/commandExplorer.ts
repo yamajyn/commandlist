@@ -176,22 +176,34 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
     return this._onDidChangeFile.event;
   }
 
-  add(selected?: Entry){
-    vscode.window.showInputBox({ placeHolder: 'Enter a new command script' })
-      .then(value => {
-        if (value !== null && value !== undefined) {
-          const fileName = sanitizeFilename(value).slice(0, 250);
-          const command: Command = {
-            script: value
-          };
-          if(selected){
-            const filePath = selected.type === vscode.FileType.Directory ? `${selected.uri.fsPath}/${fileName}.json` : `${this.getDirectoryPath(selected.uri.fsPath)}/${fileName}.json`;
-            this._writeFile(filePath, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
-          }else{
-            this._writeFile(`${this.rootUri.fsPath}/${fileName}.json`, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
-          }
-        }
-      });
+  async add(selected?: Entry){
+    const script = await vscode.window.showInputBox({ 
+      placeHolder: 'E.g.: rm -rf COVID-19.virus',
+      prompt: '📝 Enter a new command script'
+    });
+    const label = await vscode.window.showInputBox({
+      placeHolder: 'E.g.: 💊💊💊 Overcome COVID-19.virus 💊💊💊',
+      prompt: '🔖 Enter command label name',
+      value: script,
+      validateInput: this.validateLabelName
+    });
+
+    const command: Command = {
+      script: script,
+      label: label
+    };
+    let fileName = command.label ? command.label : command.script ? command.script : 'No Name';
+    const sanitizedFilename = sanitizeFilename(fileName).slice(0, 250);
+    if(selected){
+      const filePath = selected.type === vscode.FileType.Directory ? `${selected.uri.fsPath}/${fileName}.json` : `${this.getDirectoryPath(selected.uri.fsPath)}/${sanitizedFilename}.json`;
+      this._writeFile(filePath, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
+    }else{
+      this._writeFile(`${this.rootUri.fsPath}/${fileName}.json`, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
+    }
+  }
+
+  private validateLabelName(value: string): string | null {
+    return value.length > 250 ? value : null
   }
 
   addFolder(selected?: Entry){
@@ -208,23 +220,30 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
       });
   }
 
-  edit(element?: Entry){
+  async edit(element?: Entry){
     if(element && element.type === vscode.FileType.File){
       const file: Command = JSON.parse(fs.readFileSync(element.uri.fsPath, 'utf8'));
-      vscode.window.showInputBox({
-        placeHolder: 'Edit command and Save',
+      const script = await vscode.window.showInputBox({
+        prompt: '📝 Edit command script',
         value:file.script ? file.script : ''
-      }).then(async value => {
-        if (value !== null && value !== undefined) {
-          const data: Command = {
-            script: value
-          };
-          const fileName = sanitizeFilename(value).slice(0, 250);
-          const newUri = vscode.Uri.file(`${this.getDirectoryPath(element.uri.fsPath)}/${fileName}.json`);
-          await this.delete(element.uri, { recursive: false });
-          await this._writeFile(newUri.fsPath, this.stringToUnit8Array(JSON.stringify(data)),{ create: true, overwrite: true });
-        }
       });
+      if (script == null) return;
+      const label = await vscode.window.showInputBox({
+        prompt: '🔖 Edit command label name',
+        value: file.label ? file.label : file.script,
+        validateInput: this.validateLabelName
+      })
+      if (label == null) return;
+      const command: Command = {
+        script: script,
+        label: label
+      };
+
+      const fileName = command.label ? command.label : command.script ? command.script : 'No Name'
+      const sanitizedFilename = sanitizeFilename(fileName).slice(0, 250);
+      const newUri = vscode.Uri.file(`${this.getDirectoryPath(element.uri.fsPath)}/${sanitizedFilename}.json`);
+      await this.delete(element.uri, { recursive: false });
+      await this._writeFile(newUri.fsPath, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
     }else if(element && element.type === vscode.FileType.Directory){
       vscode.window.showInputBox({ placeHolder: 'Edit Folder name', value: this.getFileName(element.uri.fsPath)})
       .then(value => {
@@ -364,6 +383,8 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
   getTreeItem(element: Entry): vscode.TreeItem {
     const isDirectory = element.type === vscode.FileType.Directory;
     let label = this.getFileName(element.uri.fsPath);
+    let tooltip = '';
+    let description = '';
     let time = '';
     if(!isDirectory){
       try{
@@ -371,11 +392,12 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
         if(command.script === undefined){
           throw new Error("unknown data");
         }
-        label = command.script;
+        label = command.label ? command.label : command.script;
         if(command.time) {
           time = `${command.time}s`;
         }
-        
+        tooltip = command.script
+        description = (command.script != command.label) ? command.script : '';
       } catch {
         label = '';
         time = 'unknown command';
@@ -385,7 +407,8 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
     if (element.type === vscode.FileType.File) {
       treeItem.command = { command: `${this.viewId}.edit`, title: "Edit", arguments: [element], };
       treeItem.contextValue = 'file';
-      treeItem.description = time;
+      treeItem.description = time ? description + ` [${time}]` : description;
+      treeItem.tooltip = tooltip
     }
     return treeItem;
   }
