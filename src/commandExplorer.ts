@@ -178,11 +178,11 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 
   async add(selected?: Entry){
     const script = await vscode.window.showInputBox({ 
-      placeHolder: 'e.g: rm -rf COVID-19.virus',
+      placeHolder: 'E.g.: rm -rf COVID-19.virus',
       prompt: '📝 Enter a new command script'
     });
     const label = await vscode.window.showInputBox({
-      placeHolder: 'e.g: 💊💊💊 Overcome COVID-19.virus 💊💊💊',
+      placeHolder: 'E.g.: 💊💊💊 Overcome COVID-19.virus 💊💊💊',
       prompt: '🔖 Enter command label name',
       value: script,
       validateInput: this.validateLabelName
@@ -384,6 +384,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
     const isDirectory = element.type === vscode.FileType.Directory;
     let label = this.getFileName(element.uri.fsPath);
     let tooltip = '';
+    let description = '';
     let time = '';
     if(!isDirectory){
       try{
@@ -396,6 +397,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
           time = `${command.time}s`;
         }
         tooltip = command.script
+        description = (command.script != command.label) ? command.script : '';
       } catch {
         label = '';
         time = 'unknown command';
@@ -405,7 +407,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
     if (element.type === vscode.FileType.File) {
       treeItem.command = { command: `${this.viewId}.edit`, title: "Edit", arguments: [element], };
       treeItem.contextValue = 'file';
-      treeItem.description = time ? tooltip + ` [${time}]` : tooltip;
+      treeItem.description = time ? description + ` [${time}]` : description;
       treeItem.tooltip = tooltip
     }
     return treeItem;
