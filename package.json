@@ -218,7 +218,7 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
+    "vscode:prepublish": "yarn compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "postinstall": "node ./node_modules/vscode/bin/install",
@@ -230,12 +230,10 @@
     "@types/node": "^10.17.60",
     "@types/rimraf": "^2.0.5",
     "@types/uuid": "^3.4.10",
-    "@types/vscode": "^1.62.0",
     "tslint": "^5.20.1",
     "typescript": "^3.9.10",
     "vsce": "^1.103.1",
-    "vscode": "^1.1.37",
-    "vscode-test": "^1.6.1"
+    "vscode": "^1.1.37"
   },
   "dependencies": {
     "mkdirp": "^0.5.1",
