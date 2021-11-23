@@ -1,6 +1,6 @@
 {
   "name": "commandlist",
-  "displayName": "CommandList",
+  "displayName": "Command List",
   "description": "Save and display shell commands like File Explorer",
   "publisher": "yamajyn",
   "icon": "resources/icon@128.png",
@@ -227,19 +227,20 @@
   "devDependencies": {
     "@types/mkdirp": "^0.5.2",
     "@types/mocha": "^2.2.42",
-    "@types/node": "^10.12.21",
-    "@types/rimraf": "^2.0.2",
-    "@types/sanitize-filename": "^1.1.28",
-    "@types/uuid": "^3.4.5",
-    "tslint": "^5.12.1",
-    "typescript": "^3.3.1",
-    "vsce": "^1.66.0",
-    "vscode": "^1.1.28"
+    "@types/node": "^10.17.60",
+    "@types/rimraf": "^2.0.5",
+    "@types/uuid": "^3.4.10",
+    "@types/vscode": "^1.62.0",
+    "tslint": "^5.20.1",
+    "typescript": "^3.9.10",
+    "vsce": "^1.103.1",
+    "vscode": "^1.1.37",
+    "vscode-test": "^1.6.1"
   },
   "dependencies": {
     "mkdirp": "^0.5.1",
-    "rimraf": "^2.6.3",
-    "sanitize-filename": "^1.6.2",
-    "uuid": "^3.3.2"
+    "rimraf": "^2.7.1",
+    "sanitize-filename": "^1.6.3",
+    "uuid": "^3.4.0"
   }
 }
