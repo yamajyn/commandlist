@@ -177,11 +177,11 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 
   async add(selected?: Entry){
     const script = await vscode.window.showInputBox({ 
-      placeHolder: 'E.g.: rm -rf COVID-19.virus',
+      placeHolder: 'E.g.: echo "We Support Ukraine 🇺🇦"',
       prompt: '📝 Enter a new command script'
     });
     const label = await vscode.window.showInputBox({
-      placeHolder: 'E.g.: 💊💊💊 Overcome COVID-19.virus 💊💊💊',
+      placeHolder: 'E.g.: We Support Ukraine 🇺🇦',
       prompt: '🔖 Enter command label name',
       value: script,
       validateInput: this.validateLabelName

@@ -8,8 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.3] - 2020-04-06
 ### Added
+- support Ukraine 🇺🇦
+
+## [1.0.3] - 2020-04-06
+### Added
 - give the command a descriptive name.
-- anti COVID-19😡
+- anti COVID-19 😡
 
 ## [1.0.2] - 2019-08-02
 ### Fix
