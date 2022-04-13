@@ -21,7 +21,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: npm install
+      - run: yarn install
 
       - save_cache:
           paths:
@@ -30,7 +30,7 @@ jobs:
 
       # run tests!
       - run: sleep 5
-      - run: npm test
+      - run: yarn test
       - persist_to_workspace:
           root: .
           paths:
@@ -42,7 +42,7 @@ jobs:
     steps:
       - attach_workspace: # workspaceをアタッチする
           at: .
-      - run: npm install --ignore-engines
+      - run: yarn install
       - run: node_modules/vsce/out/vsce publish -p $PERSONAL_ACCESS_TOKEN --yarn
 workflows:
   version: 2
