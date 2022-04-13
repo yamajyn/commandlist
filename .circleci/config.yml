@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:10.7.0-browsers
+      - image: circleci/node:12.13.1-browsers
     working_directory: ~/repo
     steps:
       - checkout
@@ -34,7 +34,7 @@ jobs:
             - .
   release:
     docker:
-      - image: circleci/node:10.7.0-browsers
+      - image: circleci/node:12.13.1-browsers
     working_directory: ~/repo
     steps:
       - attach_workspace: # workspaceをアタッチする
