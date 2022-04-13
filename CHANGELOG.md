@@ -6,10 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.4] - 2020-04-06
+### Added
+- support Ukraine 🇺🇦
+- update libs
+
 ## [1.0.3] - 2020-04-06
 ### Added
 - give the command a descriptive name.
-- anti COVID-19😡
+- anti COVID-19 😡
 
 ## [1.0.2] - 2019-08-02
 ### Fix
@@ -40,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - icon
 
 [Unreleased]: https://github.com/yamajyn/commandlist/compare/v1.0.3...HEAD
+[1.0.4]: https://github.com/yamajyn/commandlist/releases/tag/v1.0.4
 [1.0.3]: https://github.com/yamajyn/commandlist/releases/tag/v1.0.3
 [1.0.2]: https://github.com/yamajyn/commandlist/releases/tag/v1.0.2
 [1.0.1]: https://github.com/yamajyn/commandlist/releases/tag/v1.0.1

@@ -1,10 +1,9 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
-import * as mkdirp from 'mkdirp';
-import * as rimraf from 'rimraf';
-import * as uuid from 'uuid/v4';
-import * as sanitizeFilename from 'sanitize-filename';
+import mkdirp from 'mkdirp';
+import rimraf from 'rimraf';
+import sanitize from 'sanitize-filename';
 import { Entry } from './type/Entry';
 import { Command } from './type/Command';
 
@@ -169,7 +168,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
   }
 
   refresh(): void {
-    this._onDidChangeTreeData.fire();
+    this._onDidChangeTreeData.fire;
   }
 
   get onDidChangeFile(): vscode.Event<vscode.FileChangeEvent[]> {
@@ -178,11 +177,11 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 
   async add(selected?: Entry){
     const script = await vscode.window.showInputBox({ 
-      placeHolder: 'E.g.: rm -rf COVID-19.virus',
+      placeHolder: 'E.g.: echo "We Support Ukraine 🇺🇦"',
       prompt: '📝 Enter a new command script'
     });
     const label = await vscode.window.showInputBox({
-      placeHolder: 'E.g.: 💊💊💊 Overcome COVID-19.virus 💊💊💊',
+      placeHolder: 'E.g.: We Support Ukraine 🇺🇦',
       prompt: '🔖 Enter command label name',
       value: script,
       validateInput: this.validateLabelName
@@ -193,7 +192,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
       label: label
     };
     let fileName = command.label ? command.label : command.script ? command.script : 'No Name';
-    const sanitizedFilename = sanitizeFilename(fileName).slice(0, 250);
+    const sanitizedFilename = sanitize(fileName).slice(0, 250);
     if(selected){
       const filePath = selected.type === vscode.FileType.Directory ? `${selected.uri.fsPath}/${fileName}.json` : `${this.getDirectoryPath(selected.uri.fsPath)}/${sanitizedFilename}.json`;
       this._writeFile(filePath, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
@@ -240,7 +239,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
       };
 
       const fileName = command.label ? command.label : command.script ? command.script : 'No Name'
-      const sanitizedFilename = sanitizeFilename(fileName).slice(0, 250);
+      const sanitizedFilename = sanitize(fileName).slice(0, 250);
       const newUri = vscode.Uri.file(`${this.getDirectoryPath(element.uri.fsPath)}/${sanitizedFilename}.json`);
       await this.delete(element.uri, { recursive: false });
       await this._writeFile(newUri.fsPath, this.stringToUnit8Array(JSON.stringify(command)),{ create: true, overwrite: true });
