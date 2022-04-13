@@ -4,7 +4,7 @@
   "description": "Save and display shell commands like File Explorer",
   "publisher": "yamajyn",
   "icon": "resources/icon@128.png",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "galleryBanner": {
     "color": "#ffffff",
