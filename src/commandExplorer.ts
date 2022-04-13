@@ -168,7 +168,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
   }
 
   refresh(): void {
-    this._onDidChangeTreeData.fire;
+    this._onDidChangeTreeData.fire();
   }
 
   get onDidChangeFile(): vscode.Event<vscode.FileChangeEvent[]> {
