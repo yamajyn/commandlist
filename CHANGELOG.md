@@ -6,7 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.4] - 2020-04-06
+## [1.0.5] - 2022-04-14
+### Fixed
+- not changed explorer data🙏🏻
+
+## [1.0.4] - 2022-04-14
 ### Added
 - support Ukraine 🇺🇦
 - update libs
@@ -17,13 +21,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - anti COVID-19 😡
 
 ## [1.0.2] - 2019-08-02
-### Fix
+### Fixed
 - put commands in alphabetical order
 
 ## [1.0.1] - 2019-07-29
 ### Added
 - explain images
-### Fix
+### Fixed
 - light theme icon
 
 ## [1.0.0] - 2019-07-28
@@ -45,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - icon
 
 [Unreleased]: https://github.com/yamajyn/commandlist/compare/v1.0.3...HEAD
+[1.0.5]: https://github.com/yamajyn/commandlist/releases/tag/v1.0.5
 [1.0.4]: https://github.com/yamajyn/commandlist/releases/tag/v1.0.4
 [1.0.3]: https://github.com/yamajyn/commandlist/releases/tag/v1.0.3
 [1.0.2]: https://github.com/yamajyn/commandlist/releases/tag/v1.0.2
