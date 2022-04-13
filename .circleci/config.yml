@@ -43,7 +43,7 @@ jobs:
       - attach_workspace: # workspaceをアタッチする
           at: .
       - run: yarn install
-      - run: node_modules/vsce/out/vsce publish -p $PERSONAL_ACCESS_TOKEN --yarn
+      - run: node_modules/vsce/vsce publish -p $PERSONAL_ACCESS_TOKEN --yarn
 workflows:
   version: 2
   build_and_release:
