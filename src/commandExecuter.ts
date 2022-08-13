@@ -10,7 +10,7 @@ export class CommandExecuter {
     context.subscriptions.push(vscode.commands.registerCommand(`${viewId}.watch`, (element: Entry) => this.watchCommandTime(element)));
   }
 
-  private executeCommand(element: Entry, needsWatchTime: boolean = false) {
+  private async executeCommand(element: Entry, needsWatchTime: boolean = false) {
     const command: Command = JSON.parse(fs.readFileSync(element.uri.fsPath, 'utf8'));
     this.ensureTerminalExists();
     if (vscode.window.terminals.length === 1) {
@@ -19,18 +19,19 @@ export class CommandExecuter {
       console.log(`execute $ ${command.script}`);
       terminal.sendText(command.script ? command.script : '');
       if (needsWatchTime) { this.startWatch(element, command) }
+      await this.progressBar(command);
     } else {
-      this.selectTerminal().then(terminal => {
-        if (terminal) {
-          terminal.show();
-          console.log(`execute $ ${command.script}`);
-          terminal.sendText(command.script ? command.script : '');
-          if (needsWatchTime) { this.startWatch(element, command) }
-        } else {
-          console.error('Selected Terminal is not exist');
-          vscode.window.showErrorMessage('Sorry, Unexpected error has occurred.');
-        }
-      });
+      let terminal = await this.selectTerminal()
+      if (terminal) {
+        terminal.show();
+        console.log(`execute $ ${command.script}`);
+        terminal.sendText(command.script ? command.script : '');
+        if (needsWatchTime) { this.startWatch(element, command) }
+        await this.progressBar(command);
+      } else {
+        console.error('Selected Terminal is not exist');
+        vscode.window.showErrorMessage('Sorry, Unexpected error has occurred.');
+      }
     }
   }
 
@@ -67,27 +68,52 @@ export class CommandExecuter {
     }
   }
 
-  private async startWatch(element: Entry, command: Command) {
+  private startWatch = async (element: Entry, command: Command) => {
     let start = new Date();
     const value = await vscode.window.showInformationMessage(
-      "Record the execution time",
+      "[BETA] Stopwatch. Record the execution time",
       "Completed. Record time",
       "Cancel"
     );
     if (value === 'Completed. Record time') {
       let end = new Date();
-      let time = (end.getTime() - start.getTime()) / 1000
+      let time = (end.getTime() - start.getTime()) / 1000;
       console.log(time);
       command.time = time;
-      await fs.writeFileSync(element.uri.fsPath, this.stringToUnit8Array(JSON.stringify(command)))
+      await fs.writeFileSync(element.uri.fsPath, this.stringToUnit8Array(JSON.stringify(command)));
       await vscode.window.showInformationMessage(
         "Congratulations👏 The progress bar will appear next time🥳",
-      )
+      );
     }
   }
 
-  private stringToUnit8Array(s: string): Uint8Array {
+  private stringToUnit8Array = (s: string): Uint8Array => {
     return Uint8Array.from(Buffer.from(s));
   }
+  
+  private progressBar = async (command?: Command) => {
+    if (command?.time == null || command.time <= 0) return;
+    await vscode.window.withProgress({
+      location: vscode.ProgressLocation.Notification,
+      title: "",
+      cancellable: false
+    }, async (progress) => {
+      const refreshTime = 100; // ms
+      const loopCount = command.time! * 1000 / refreshTime;
+      for(var index=0; index<loopCount; index++) {
+        let inc = 100 / loopCount;
+        progress.report({ message: `[BETA] Stopwatch. ${command.label}`, increment: inc });
+        await this.sleep(refreshTime);
+      }
+    })
+  }
+
+  private sleep = async (time: number): Promise<number> => {
+    return new Promise<number>(resolve => {
+      setTimeout(()=> {
+        resolve(time);
+      }, time);
+    });
+  };
 
 }
