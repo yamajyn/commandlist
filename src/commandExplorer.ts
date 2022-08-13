@@ -235,7 +235,8 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
       if (label == null) return;
       const command: Command = {
         script: script,
-        label: label
+        label: label,
+        time: file.time
       };
 
       const fileName = command.label ? command.label : command.script ? command.script : 'No Name'
