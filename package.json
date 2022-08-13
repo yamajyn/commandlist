@@ -67,11 +67,19 @@
     "commands": [
       {
         "command": "workSpaceCommandExplorer.openFile",
-        "title": "Open File"
+        "title": "Open File",
+        "icon": {
+          "light": "resources/light/go-to-file.svg",
+          "dark": "resources/dark/go-to-file.svg"
+        }
       },
       {
         "command": "globalCommandExplorer.openFile",
-        "title": "Open File"
+        "title": "Open File",
+        "icon": {
+          "light": "resources/light/go-to-file.svg",
+          "dark": "resources/dark/go-to-file.svg"
+        }
       },
       {
         "command": "workSpaceCommandExplorer.add",
@@ -159,32 +167,42 @@
         {
           "command": "workSpaceCommandExplorer.add",
           "when": "view == workSpaceCommandExplorer",
-          "group": "navigation"
+          "group": "navigation@0"
         },
         {
           "command": "globalCommandExplorer.add",
           "when": "view == globalCommandExplorer",
-          "group": "navigation"
-        },
-        {
-          "command": "globalCommandExplorer.sync",
-          "when": "view == globalCommandExplorer",
-          "group": "navigation"
-        },
-        {
-          "command": "workSpaceCommandExplorer.sync",
-          "when": "view == workSpaceCommandExplorer",
-          "group": "navigation"
+          "group": "navigation@0"
         },
         {
           "command": "workSpaceCommandExplorer.addFolder",
           "when": "view == workSpaceCommandExplorer",
-          "group": "navigation"
+          "group": "navigation@1"
         },
         {
           "command": "globalCommandExplorer.addFolder",
           "when": "view == globalCommandExplorer",
-          "group": "navigation"
+          "group": "navigation@1"
+        },
+        {
+          "command": "globalCommandExplorer.sync",
+          "when": "view == globalCommandExplorer",
+          "group": "navigation@2"
+        },
+        {
+          "command": "workSpaceCommandExplorer.sync",
+          "when": "view == workSpaceCommandExplorer",
+          "group": "navigation@2"
+        },
+        {
+          "command": "globalCommandExplorer.openFile",
+          "when": "view == globalCommandExplorer",
+          "group": "navigation@3"
+        },
+        {
+          "command": "workSpaceCommandExplorer.openFile",
+          "when": "view == workSpaceCommandExplorer",
+          "group": "navigation@3"
         }
       ],
       "view/item/context": [
