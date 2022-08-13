@@ -59,7 +59,7 @@ export class CommandExecuter {
 
   private async watchCommandTime(element: Entry) {
     const value = await vscode.window.showInformationMessage(
-      "[BETA] Stopwatch. Do you want to measure time? If recorded, a progress bar will appear next time.",
+      "[BETA] Stopwatch.⏱ Do you want to measure time? If recorded, a progress bar will appear next time.",
       "Start",
       "Cancel"
     );
@@ -71,7 +71,7 @@ export class CommandExecuter {
   private startWatch = async (element: Entry, command: Command) => {
     let start = new Date();
     const value = await vscode.window.showInformationMessage(
-      "[BETA] Stopwatch. Record the execution time",
+      "[BETA] Stopwatch.⏱ Record the execution time",
       "Completed. Record time",
       "Cancel"
     );
@@ -93,16 +93,18 @@ export class CommandExecuter {
   
   private progressBar = async (command?: Command) => {
     if (command?.time == null || command.time <= 0) return;
+    const time = command.time;
+    
     await vscode.window.withProgress({
       location: vscode.ProgressLocation.Notification,
       title: "",
       cancellable: false
     }, async (progress) => {
       const refreshTime = 100; // ms
-      const loopCount = command.time! * 1000 / refreshTime;
+      const loopCount = time * 1000 / refreshTime;
       for(var index=0; index<loopCount; index++) {
         let inc = 100 / loopCount;
-        progress.report({ message: `[BETA] Stopwatch. ${command.label}`, increment: inc });
+        progress.report({ message: `[BETA] Stopwatch.⏱ \`${command.label}\` will take ${time}s`, increment: inc });
         await this.sleep(refreshTime);
       }
     })
