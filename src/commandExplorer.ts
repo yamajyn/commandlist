@@ -443,13 +443,14 @@ export class CommandExplorer {
     this.setupStorage(storagePath).then(() => {
       const treeDataProvider = new FileSystemProvider(viewId, storagePath);
       this.commandExplorer = vscode.window.createTreeView(viewId, { treeDataProvider });
-      vscode.commands.registerCommand(`${viewId}.openFile`, (resource) => this.openResource(resource));
+      vscode.commands.registerCommand(`${viewId}.openFile`, () => this.openResource(vscode.Uri.file(storagePath)));
       this.commandExplorer.onDidChangeSelection(event => this.selectedFile = event.selection[0]);
       vscode.commands.registerCommand(`${viewId}.add`,() => treeDataProvider.add(this.selectedFile));
       vscode.commands.registerCommand(`${viewId}.addFolder`,() => treeDataProvider.addFolder(this.selectedFile));
       vscode.commands.registerCommand(`${viewId}.sync`,() => treeDataProvider.refresh());
       vscode.commands.registerCommand(`${viewId}.edit`,(element) => treeDataProvider.edit(element));
       vscode.commands.registerCommand(`${viewId}.delete`, (element: Entry) => treeDataProvider.delete(element.uri,{ recursive: true }));
+      vscode.commands.registerCommand(`${viewId}.goToFile`, (element: Entry) => treeDataProvider.delete(element.uri,{ recursive: true }));
     });
   }
 
@@ -462,6 +463,6 @@ export class CommandExplorer {
   }
 
   private openResource(resource: vscode.Uri): void {
-    vscode.window.showTextDocument(resource);
+    vscode.commands.executeCommand(`vscode.openFolder`, resource);
   }
 }
