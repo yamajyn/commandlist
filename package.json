@@ -146,6 +146,22 @@
         "title": "Delete"
       },
       {
+        "command": "workSpaceCommandExecuter.watch",
+        "title": "Watch",
+        "icon": {
+          "light": "resources/light/watch.svg",
+          "dark": "resources/dark/watch.svg"
+        }
+      },
+      {
+        "command": "globalCommandExecuter.watch",
+        "title": "Watch",
+        "icon": {
+          "light": "resources/light/watch.svg",
+          "dark": "resources/dark/watch.svg"
+        }
+      },
+      {
         "command": "workSpaceCommandExecuter.execute",
         "title": "Execute",
         "icon": {
@@ -207,14 +223,24 @@
       ],
       "view/item/context": [
         {
+          "command": "workSpaceCommandExecuter.watch",
+          "when": "view == workSpaceCommandExplorer && viewItem == file",
+          "group": "inline@0"
+        },
+        {
+          "command": "globalCommandExecuter.watch",
+          "when": "view == globalCommandExplorer && viewItem == file",
+          "group": "inline@0"
+        },
+        {
           "command": "workSpaceCommandExecuter.execute",
           "when": "view == workSpaceCommandExplorer && viewItem == file",
-          "group": "inline"
+          "group": "inline@1"
         },
         {
           "command": "globalCommandExecuter.execute",
           "when": "view == globalCommandExplorer && viewItem == file",
-          "group": "inline"
+          "group": "inline@1"
         },
         {
           "command": "workSpaceCommandExplorer.delete",
