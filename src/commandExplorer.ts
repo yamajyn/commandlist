@@ -463,6 +463,6 @@ export class CommandExplorer {
   }
 
   private openResource(resource: vscode.Uri): void {
-    vscode.commands.executeCommand(`vscode.openFolder`, resource);
+    vscode.commands.executeCommand(`vscode.openFolder`, resource, { forceNewWindow: true});
   }
 }

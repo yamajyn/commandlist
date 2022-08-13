@@ -196,12 +196,12 @@
         },
         {
           "command": "globalCommandExplorer.openFile",
-          "when": "view == workSpaceCommandExplorer",
+          "when": "view == globalCommandExplorer",
           "group": "navigation@3"
         },
         {
           "command": "workSpaceCommandExplorer.openFile",
-          "when": "view == globalCommandExplorer",
+          "when": "view == workSpaceCommandExplorer",
           "group": "navigation@3"
         }
       ],
