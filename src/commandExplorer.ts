@@ -443,7 +443,7 @@ export class CommandExplorer {
     this.setupStorage(storagePath).then(() => {
       const treeDataProvider = new FileSystemProvider(viewId, storagePath);
       this.commandExplorer = vscode.window.createTreeView(viewId, { treeDataProvider });
-      vscode.commands.registerCommand(`${viewId}.openFile`, () => this.openResource(vscode.Uri.file(storagePath)));
+      vscode.commands.registerCommand(`${viewId}.openFile`, () => this.openResource("Open the JSON files where the commands are stored in a new window?", vscode.Uri.file(storagePath)));
       this.commandExplorer.onDidChangeSelection(event => this.selectedFile = event.selection[0]);
       vscode.commands.registerCommand(`${viewId}.add`,() => treeDataProvider.add(this.selectedFile));
       vscode.commands.registerCommand(`${viewId}.addFolder`,() => treeDataProvider.addFolder(this.selectedFile));
@@ -462,7 +462,17 @@ export class CommandExplorer {
     return;
   }
 
-  private openResource(resource: vscode.Uri): void {
-    vscode.commands.executeCommand(`vscode.openFolder`, resource, { forceNewWindow: true});
+  private openResource(title: string, resource: vscode.Uri): void {
+    const message = vscode.window.showInformationMessage(
+      title,
+      { modal: true },
+      { title: "OK", isCloseAffordance: false },
+      { title: "Cancel", isCloseAffordance: true }
+    );
+    message.then((value) => {
+      if (value?.title ==='OK') {
+        vscode.commands.executeCommand(`vscode.openFolder`, resource, { forceNewWindow: true});
+      }
+    });
   }
 }
