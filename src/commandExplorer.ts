@@ -177,11 +177,11 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
 
   async add(selected?: Entry){
     const script = await vscode.window.showInputBox({ 
-      placeHolder: 'E.g.: echo "We Support Ukraine 🇺🇦"',
+      placeHolder: "e.g.: rm -rf '~/.aggression/russian in Ukraine'",
       prompt: '📝 Enter a new command script'
     });
     const label = await vscode.window.showInputBox({
-      placeHolder: 'E.g.: We Support Ukraine 🇺🇦',
+      placeHolder: 'e.g.: Want peace between Ukraine🇺🇦 and Russia🇷🇺.',
       prompt: '🔖 Enter command label name',
       value: script,
       validateInput: this.validateLabelName
@@ -235,7 +235,8 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry>, vscod
       if (label == null) return;
       const command: Command = {
         script: script,
-        label: label
+        label: label,
+        time: file.time
       };
 
       const fileName = command.label ? command.label : command.script ? command.script : 'No Name'
@@ -443,13 +444,14 @@ export class CommandExplorer {
     this.setupStorage(storagePath).then(() => {
       const treeDataProvider = new FileSystemProvider(viewId, storagePath);
       this.commandExplorer = vscode.window.createTreeView(viewId, { treeDataProvider });
-      vscode.commands.registerCommand(`${viewId}.openFile`, (resource) => this.openResource(resource));
+      vscode.commands.registerCommand(`${viewId}.openFile`, () => this.openResource("Open the JSON files where the commands are stored in a new window?", vscode.Uri.file(storagePath)));
       this.commandExplorer.onDidChangeSelection(event => this.selectedFile = event.selection[0]);
       vscode.commands.registerCommand(`${viewId}.add`,() => treeDataProvider.add(this.selectedFile));
       vscode.commands.registerCommand(`${viewId}.addFolder`,() => treeDataProvider.addFolder(this.selectedFile));
       vscode.commands.registerCommand(`${viewId}.sync`,() => treeDataProvider.refresh());
       vscode.commands.registerCommand(`${viewId}.edit`,(element) => treeDataProvider.edit(element));
       vscode.commands.registerCommand(`${viewId}.delete`, (element: Entry) => treeDataProvider.delete(element.uri,{ recursive: true }));
+      vscode.commands.registerCommand(`${viewId}.goToFile`, (element: Entry) => treeDataProvider.delete(element.uri,{ recursive: true }));
     });
   }
 
@@ -461,7 +463,17 @@ export class CommandExplorer {
     return;
   }
 
-  private openResource(resource: vscode.Uri): void {
-    vscode.window.showTextDocument(resource);
+  private openResource(title: string, resource: vscode.Uri): void {
+    const message = vscode.window.showInformationMessage(
+      title,
+      { modal: true },
+      { title: "OK", isCloseAffordance: false },
+      { title: "Cancel", isCloseAffordance: true }
+    );
+    message.then((value) => {
+      if (value?.title ==='OK') {
+        vscode.commands.executeCommand(`vscode.openFolder`, resource, { forceNewWindow: true});
+      }
+    });
   }
 }

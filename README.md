@@ -40,27 +40,12 @@ right-click on command
 
 
 
-## Release Notes
+## Release Note
 
-### 1.0.2
+### 1.1.0
 
-Put commands in alphabetical order
-
-### 1.0.1
-
-Fix light theme icon.
-
-### 1.0.0
-
-Initial release of commandlist.
-
-### 0.2.0
-
-Function addition of command group.
-
-### 0.1.0
-
-create command explorer and command executer.
+- Enabled to open the destination JSON files.
+- [BETA] Show progress bar
 
 -----------------------------------------------------------------------------------------------------------
 
