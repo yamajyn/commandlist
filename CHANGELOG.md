@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2022-08-15
+
+- Enabled to open the destination JSON files.
+- [BETA] Show progress bar
+
 ## [1.0.5] - 2022-04-14
 ### Fixed
 - not changed explorer data🙏🏻
@@ -48,7 +53,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - README
 - icon
 
-[Unreleased]: https://github.com/yamajyn/commandlist/compare/v1.0.3...HEAD
+[Unreleased]: https://github.com/yamajyn/commandlist/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/yamajyn/commandlist/releases/tag/v1.1.0
 [1.0.5]: https://github.com/yamajyn/commandlist/releases/tag/v1.0.5
 [1.0.4]: https://github.com/yamajyn/commandlist/releases/tag/v1.0.4
 [1.0.3]: https://github.com/yamajyn/commandlist/releases/tag/v1.0.3
